@@ -1,10 +1,8 @@
-import numpy as np
-
 from mujoco_env.tasks.null_task import NullTask
 
 cfg = dict(
     scene=dict(
-        resource='lemons',
+        resource='empty_world',
     ),
     robot=dict(
         resource='xarm7',

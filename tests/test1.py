@@ -6,7 +6,6 @@ from mujoco_env.common.xarm7_fk import forward
 from motion_planning.xarm7_ik import PyBulletIKSolver
 
 if __name__ == '__main__':
-    # Define the configuration for multiple robots and tasks
     cfg = dict(
         scene=dict(
             resource='lemons',
@@ -17,11 +16,10 @@ if __name__ == '__main__':
         task=NullTask,
     )
 
-    # Initialize the environment with the multi-agent configuration
     env = mujoco_env.MujocoEnv.from_cfg(cfg=cfg, render_mode="human", frame_skip=5)
 
     N_EPISODES = 1
-    N_STEPS = 200
+    N_STEPS = 2000
     ik_solver = PyBulletIKSolver(urdf_path='../motion_planning/assets/xarm7_robot.urdf')
 
     try:
@@ -31,7 +29,7 @@ if __name__ == '__main__':
 
             action = np.zeros((1, 8)).flatten()
 
-            action[:7] = ik_solver.compute_ik(end_effector_index=7, target_position=[0.5, 0.5, 0.08])
+            action[:7] = ik_solver.compute_ik(end_effector_index=7, target_position=[0.5, 0.5, 0.2])
             print(action)
             print(forward(action[:7]))
 

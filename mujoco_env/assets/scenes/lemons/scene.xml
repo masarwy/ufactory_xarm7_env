@@ -1,5 +1,7 @@
 <mujoco model="lemons_world">
 
+  <include file="lemon/object.xml"/>
+
   <statistic center="0.2 0 0.4" extent=".65"/>
 
   <visual>
@@ -19,5 +21,19 @@
     <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
     <geom type="cylinder" size=".06 .06" pos="0 0 .06" rgba="1 1 1 1"/>
+
+    <body name="table_1" pos="0.3 0.3 0.005">
+      <geom name="table_1_top" type="box" size=".2 .2 .01" pos="0 0 .0"/>
+    </body>
+
+    <body name="table_2" pos="-0.3 -0.3 0.005">
+      <geom name="table_2_top" type="box" size=".2 .2 .01" pos="0 0 .0"/>
+    </body>
+
+    <body name="lemon1" pos="0.3 0.3 0.03">
+      <joint type="free" name="lemon_joint"/>
+      <geom pos="0 0 0" mesh="lemon_mesh" type="mesh" solimp="0.998 0.998 0.001" solref="0.001 1" density="50"
+            friction="0.95 0.3 0.1" material="lemon" group="0" condim="4"/>
+    </body>
   </worldbody>
 </mujoco>
