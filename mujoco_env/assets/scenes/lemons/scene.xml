@@ -1,4 +1,4 @@
-<mujoco model="xarm7_world">
+<mujoco model="lemons_world">
 
   <statistic center="0.2 0 0.4" extent=".65"/>
 

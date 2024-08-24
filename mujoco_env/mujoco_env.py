@@ -25,8 +25,6 @@ class MujocoEnv(Env, EzPickle):
             'depth_array',
             'segmentation',
         ]
-        # render_fps is added in `__initialize_renderer`.
-        # FPS may change if the simulation is reinitialized at runtime.
     }
 
     def __init__(
@@ -101,7 +99,7 @@ class MujocoEnv(Env, EzPickle):
         self.task.end_frame(action)
 
         return (
-            self.agent.get_obs(),  # get agent observation
+            self.agent.get_obs(self.sim),  # get agent observation
             self.task.score(),  # get task reward
             self.task.is_done(),  # check if task is done
             False,  # _env is never truncated internally
@@ -131,7 +129,7 @@ class MujocoEnv(Env, EzPickle):
             # with self.sim.physics.reset_context():
             self.task.reset(**self.episode.task.params)
 
-        return self.agent.get_obs(), self.__get_info_dict()
+        return self.agent.get_obs(self.sim), self.__get_info_dict()
 
     def render(self):
         if self.render_mode is None:
@@ -260,5 +258,5 @@ class MujocoEnv(Env, EzPickle):
         return dict(
             task=self.task.get_info(),
             agent=self.agent.get_info(),
-            priveleged=self.sim.get_privileged_info() if self.episode.robot.privileged_info else {}
+            privileged=self.sim.get_privileged_info() if self.episode.robot.privileged_info else {}
         )

@@ -10,6 +10,7 @@ from .entity import Entity
 from ..common import InfoDict
 from ..episode.specs.camera_spec import CameraSpec
 from ..rendering import OffscreenRenderer
+from ..common.transform import Transform
 
 if TYPE_CHECKING:
     from .simulator import Simulator
@@ -92,6 +93,15 @@ class RobotAgent:
             robot_state=gym.spaces.Box(low=state_lows, high=state_highs, shape=(pos_len + vel_len,), dtype=np.float64)
         )
 
+        spaces.update({
+            'end_effector_pose': gym.spaces.Box(
+                low=-np.inf,
+                high=np.inf,
+                shape=(1, 7),
+                dtype=np.float32
+            )
+        })
+
         # set sensor observation spaces
         spaces.update({
             name: sensor.sensordata_space
@@ -119,7 +129,7 @@ class RobotAgent:
 
         return gym.spaces.Box(low=low, high=high, dtype=np.float64)
 
-    def get_obs(self) -> dict[str, npt.NDArray[np.float64]]:
+    def get_obs(self, sim: Simulator) -> dict[str, npt.NDArray[np.float64]]:
         """
         Retrieves the current agent observation.
         :return: A dictionary of agent observations.
@@ -127,6 +137,13 @@ class RobotAgent:
         # get agent state
         out = dict(
             robot_state=np.concatenate([self.entity.get_joint_positions(), self.entity.get_joint_velocities()])
+        )
+
+        gripper_base = sim.data.body('xarm7/link7')
+        gripper_pose = np.array(Transform(rotation=gripper_base.xmat.reshape(3, 3),
+                                          translation=gripper_base.xpos).to_pose_quaternion().tolist())
+        out.update(
+            end_effector_pose=gripper_pose
         )
 
         # get sensor data
