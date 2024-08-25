@@ -9,7 +9,7 @@ This project consists of two main components:
 The first part of the project focuses on generating synthetic data to estimate the manipulator's pose. This process supports multiple views, allowing for the use of a multi-perspective Convolutional Neural Network (CNN). The generated data can be used to train a pose estimation model with higher accuracy by leveraging the different perspectives provided by the multi-view setup.
 
 - **Script to Run**: `scripts/generate_traj_data.py`
-- **Example Code to Load the Synthetic Data**: An example of how to load the synthetic data is provided in tests/test3.py.
+- **Example Code to Load the Synthetic Data**: An example of how to load the synthetic data is provided in `tests/test3.py`
 
 ### 2. Training a Reinforcement Learning (RL) Agent for Pick-and-Place Tasks
 
