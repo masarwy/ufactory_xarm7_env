@@ -1,7 +1,7 @@
-from lemon_picking_world.lemons_world import LemonWorld
+from lemon_env import LemonEnv
 
 if __name__ == '__main__':
-    world = LemonWorld()
+    world = LemonEnv(render_mode='human')
 
     N_EPISODES = 1
     N_STEPS = 200

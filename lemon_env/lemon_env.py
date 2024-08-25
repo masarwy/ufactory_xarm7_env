@@ -13,8 +13,14 @@ from motion_planning.xarm7_ik import PyBulletIKSolver
 from mujoco_env.tasks import LemonPickingTask
 
 
-class LemonWorld(Env):
-    def __init__(self, render_mode='human', image_height=240, image_width=240, cfg=cfg):
+class LemonEnv(Env):
+    metadata = {
+        'render_modes': [
+            'human',
+        ]
+    }
+
+    def __init__(self, render_mode=None, image_height=240, image_width=240, cfg=cfg):
         self.render_mode = render_mode
         self._env = MujocoEnv.from_cfg(cfg=cfg, render_mode=render_mode, frame_skip=frame_skip)
         obs, info = self._env.reset()  # once, for info, later again
@@ -23,8 +29,9 @@ class LemonWorld(Env):
 
         self._env_entity = self._env.agent.entity
 
-        self.im_h, self.im_w = image_width, image_height
+        self.im_h, self.im_w = image_height, image_width
         self.action_space = self.action_space = spaces.MultiDiscrete([self.im_h, self.im_w])
+        self.observation_space = spaces.Box(low=0, high=255, shape=(image_height, image_width, 3), dtype=np.uint8)
 
         self.robot_joint_pos = None  # will be updated in reset
         self.robot_joint_velocities = None  # --""--
@@ -97,7 +104,8 @@ class LemonWorld(Env):
             self._step(config)
 
     def render(self):
-        return self._env.render()
+        if self.render_mode == 'human':
+            return self._env.render()
 
     def get_state(self):
         state = {"robot_joint_pos": self.robot_joint_pos,
@@ -131,7 +139,7 @@ class LemonWorld(Env):
 
         self.move_to_conf(self.home1)
 
-        target_pos = [action_coord[0], action_coord[1], 0.04]
+        target_pos = [action_coord[0], action_coord[1], 0.02]
         target_joint_pos = self.ik_solver.compute_ik(end_effector_index=7, target_position=target_pos)
         self.move_to_conf(target_joint_pos)
 
@@ -157,14 +165,14 @@ class LemonWorld(Env):
         return ob, reward, done, False, info
 
     def activate_gripper(self):
-        self.current_gripper = 170.
-        action = np.concatenate((self.robot_joint_pos[:7], [170.]))
+        self.current_gripper = 180.
+        action = np.concatenate((self.robot_joint_pos[:7], [180.]))
         for _ in range(15):
             self._env.step(action)
 
     def deactivate_gripper(self):
-        self.current_gripper = -170.
-        action = np.concatenate((self.robot_joint_pos[:7], [-170.]))
+        self.current_gripper = -180.
+        action = np.concatenate((self.robot_joint_pos[:7], [-180.]))
         for _ in range(15):
             self._env.step(action)
 
@@ -189,7 +197,3 @@ class LemonWorld(Env):
         x_high, y_high = 0.4, 0.4
         resolution = self.target_box_dims['width'] / self.im_w
         return [x_high - resolution * action[0], y_high - resolution * action[1]]
-
-
-
-

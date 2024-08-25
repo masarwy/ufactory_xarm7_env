@@ -1,11 +1,9 @@
-from gymnasium import make
 from .common import cfg_keys
 from .episode import *
 from .mujoco_env import MujocoEnv
 from .tasks.rearrangement.rearrangement_task import COMRearrangementTask as _COMTask
 
 __all__ = [
-    'make',
     'MujocoEnv',
     'from_cfg',
     'from_cfg_file',
