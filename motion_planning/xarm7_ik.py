@@ -20,3 +20,6 @@ class PyBulletIKSolver:
         # Compute the inverse kinematics
         joint_angles = p.calculateInverseKinematics(self.robot_id, end_effector_index, target_position)
         return joint_angles
+
+    def close(self):
+        self.physics_client.close()

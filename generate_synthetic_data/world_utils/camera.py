@@ -17,5 +17,8 @@ class Camera:
         self.camera.azimuth = specs['azimuth']
 
     def __call__(self):
-        self.renderer.update_scene(self.data, camera=self.camera)
+        self.update_scene()
         return self.renderer.render()
+
+    def update_scene(self):
+        self.renderer.update_scene(self.data, self.camera)

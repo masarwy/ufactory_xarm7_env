@@ -26,12 +26,22 @@
       <geom name="table_1_top" type="box" size=".2 .2 .01" pos="0 0 .0"/>
     </body>
 
-    <body name="table_2" pos="-0.3 -0.3 0.005">
+    <body name="table_2" pos="0.3 -0.3 0.005">
       <geom name="table_2_top" type="box" size=".2 .2 .01" pos="0 0 .0"/>
     </body>
 
-    <body name="lemon1" pos="0.3 0.3 0.03">
-      <joint type="free" name="lemon_joint"/>
+    <body name="lemon0" pos="0.3 0.3 0.025">
+      <joint type="free" name="lemon0_joint"/>
+      <geom pos="0 0 0" mesh="lemon_mesh" type="mesh" solimp="0.998 0.998 0.001" solref="0.001 1" density="50"
+            friction="0.95 0.3 0.1" material="lemon" group="0" condim="4"/>
+    </body>
+    <body name="lemon1" pos="0.4 0.4 0.025">
+      <joint type="free" name="lemon1_joint"/>
+      <geom pos="0 0 0" mesh="lemon_mesh" type="mesh" solimp="0.998 0.998 0.001" solref="0.001 1" density="50"
+            friction="0.95 0.3 0.1" material="lemon" group="0" condim="4"/>
+    </body>
+    <body name="lemon2" pos="0.2 0.2 0.025">
+      <joint type="free" name="lemon2_joint"/>
       <geom pos="0 0 0" mesh="lemon_mesh" type="mesh" solimp="0.998 0.998 0.001" solref="0.001 1" density="50"
             friction="0.95 0.3 0.1" material="lemon" group="0" condim="4"/>
     </body>

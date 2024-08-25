@@ -1,4 +1,5 @@
 from copy import deepcopy
+import numpy as np
 
 from mujoco_env import MujocoEnv
 from .world_utils.configurations_and_constants import *
@@ -89,8 +90,6 @@ class XArmWorld:
         success is true if reached goal within tolerance, false otherwise
         """
 
-        target_pos_cpy = target_pos.copy()
-        target_pos_cpy[2] -= 0.12  # the Robot is defined 0.12 units above the floor
         target_joint_pos = self.ik_solver.compute_ik(end_effector_index=7, target_position=target_pos)
 
         step = 0
@@ -107,6 +106,7 @@ class XArmWorld:
             data[step]['end_effector_pose'] = state['ee_pose']
 
             for i, camera in enumerate(self.cameras):
+
                 data[step][f'camera_{i}'] = camera()
 
             step += 1

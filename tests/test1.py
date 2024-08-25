@@ -29,9 +29,10 @@ if __name__ == '__main__':
 
             action = np.zeros((1, 8)).flatten()
 
-            action[:7] = ik_solver.compute_ik(end_effector_index=7, target_position=[0.5, 0.5, 0.2])
+            action[:7] = ik_solver.compute_ik(end_effector_index=7, target_position=[0.32, 0.32, 0.04])
             print(action)
             print(forward(action[:7]))
+
 
             i = 0
             while i < N_STEPS:
